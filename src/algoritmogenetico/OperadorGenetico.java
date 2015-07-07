@@ -56,7 +56,7 @@ public class OperadorGenetico implements GeneticOperator {
             if (item instanceof Escola) {
                 escolaAtual = (Escola) item;
                 oldPosition = -1;
-                for (int j = 0; j <= i; j++) {
+                for (int j = 0; j < i; j++) {
                     item = roteiro.getItensRoteiros().get((Integer) genes[j].getAllele());
                     if (item instanceof Escola) {
                         escola = (Escola) item;
@@ -68,10 +68,12 @@ public class OperadorGenetico implements GeneticOperator {
                         }
                     }
                 }
-                if (oldPosition > -1 && oldPosition < i) {
-                    old = genes[i];
-                    genes[i] = genes[oldPosition];
-                    genes[oldPosition] = old;
+                if (oldPosition >= 0) {
+                    old = genes[oldPosition];
+                    for (int j = oldPosition; j < i; j++) {
+                        genes[j] = genes[j + 1];
+                    }
+                    genes[i] = old;
                 }
             }
         }
@@ -84,7 +86,7 @@ public class OperadorGenetico implements GeneticOperator {
     }
 
     public IChromosome ordenarEstudantesHorarioEntrada(IChromosome iChromosome) {
-        int newPosition = -2;
+        int newPosition;
         ItemRoteiro item;
         Escola escola;
         Estudante estudante;
@@ -94,34 +96,23 @@ public class OperadorGenetico implements GeneticOperator {
             item = roteiro.getItensRoteiros().get((Integer) genes[i].getAllele());
             if (item instanceof Estudante) {
                 estudante = (Estudante) item;
-                newPosition = -2;
-                for (int j = i - 1; j >= 0; j--) {
+                newPosition = -1;
+                for (int j = 0; j < i; j++) {
                     item = roteiro.getItensRoteiros().get((Integer) genes[j].getAllele());
                     if (item instanceof Escola) {
                         escola = (Escola) item;
-                        if (estudante.getEscola().getNome().equals(escola.getNome())) {
-                            newPosition = j - 1;
+                        if (estudante.getEscola().equals(escola)) {
+                            newPosition = j;
                             break;
                         }
                     }
                 }
-                if (newPosition > -2) {
-                    if (newPosition == -1) {
-                        old = genes[0];
-                        genes[0] = genes[i];
-                        for (int j = i; j >= newPosition + 2; j--) {
-                            genes[j] = genes[j - 1];
-                        }
-                        genes[newPosition + 2] = old;
-                    } else {
-                        old = genes[newPosition];
-                        genes[newPosition] = genes[i];
-                        for (int j = i; j >= newPosition + 1; j--) {
-                            genes[j] = genes[j - 1];
-                        }
-                        genes[newPosition + 1] = old;
+                if (newPosition >= 0) {
+                    old = genes[i];
+                    for (int j = i; j > newPosition; j--) {
+                        genes[j] = genes[j - 1];
                     }
-
+                    genes[newPosition] = old;
                 }
             }
         }
@@ -134,6 +125,7 @@ public class OperadorGenetico implements GeneticOperator {
     }
 
     public IChromosome ordenarEscolasHorarioSaida(IChromosome iChromosome) {
+        int oldPosition;
         ItemRoteiro item;
         Escola escolaAtual, escola;
         Gene old;
@@ -142,8 +134,8 @@ public class OperadorGenetico implements GeneticOperator {
             item = roteiro.getItensRoteiros().get((Integer) genes[i].getAllele());
             if (item instanceof Escola) {
                 escolaAtual = (Escola) item;
-                int oldPosition = -1;
-                for (int j = 0; j <= i; j++) {
+                oldPosition = -1;
+                for (int j = 0; j < i; j++) {
                     item = roteiro.getItensRoteiros().get((Integer) genes[j].getAllele());
                     if (item instanceof Escola) {
                         escola = (Escola) item;
@@ -155,10 +147,12 @@ public class OperadorGenetico implements GeneticOperator {
                         }
                     }
                 }
-                if (oldPosition > -1 && oldPosition < i) {
-                    old = genes[i];
-                    genes[i] = genes[oldPosition];
-                    genes[oldPosition] = old;
+                if (oldPosition >= 0) {
+                    old = genes[oldPosition];
+                    for (int j = oldPosition; j < i; j++) {
+                        genes[j] = genes[j + 1];
+                    }
+                    genes[i] = old;
                 }
             }
         }
@@ -171,7 +165,7 @@ public class OperadorGenetico implements GeneticOperator {
     }
 
     public IChromosome ordenarEstudantesHorarioSaida(IChromosome iChromosome) {
-        int newPosition = -1;
+        int newPosition;
         ItemRoteiro item;
         Escola escola;
         Estudante estudante;
@@ -182,33 +176,21 @@ public class OperadorGenetico implements GeneticOperator {
             if (item instanceof Estudante) {
                 estudante = (Estudante) item;
                 newPosition = -1;
-                for (int j = i + 1; j < genes.length; j++) {
+                for (int j = i; j < genes.length; j++) {
                     item = roteiro.getItensRoteiros().get((Integer) genes[j].getAllele());
                     if (item instanceof Escola) {
                         escola = (Escola) item;
-                        if (estudante.getEscola().getNome().equals(escola.getNome())) {
-                            newPosition = j + 1;
-                            break;
+                        if (estudante.getEscola().equals(escola)) {
+                            newPosition = j;
                         }
                     }
                 }
-                if (newPosition > -1) {
-                    if (newPosition == genes.length) {
-                        old = genes[genes.length -1];
-                        genes[genes.length -1] = genes[i];
-                        for (int j = i; j <= newPosition -2; j++) {
-                            genes[j] = genes[j + 1];
-                        }
-                        genes[newPosition - 2] = old;
-                    } else {
-                        old = genes[newPosition];
-                        genes[newPosition] = genes[i];
-                        for (int j = i; j <= newPosition - 1; j++) {
-                            genes[j] = genes[j + 1];
-                        }
-                        genes[newPosition - 1] = old;
+                if (newPosition >= 0) {
+                    old = genes[i];
+                    for (int j = i; j < newPosition; j++) {
+                        genes[j] = genes[j + 1];
                     }
-
+                    genes[newPosition] = old;
                 }
             }
         }

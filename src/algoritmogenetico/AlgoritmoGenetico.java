@@ -30,8 +30,8 @@ public class AlgoritmoGenetico {
      */
     public static void main(String[] args) {
         Roteiro roteiro = new Roteiro();
-        roteiro.setTipo(2);
-        
+        roteiro.setTipo(1);
+
         List<ItemRoteiro> pontos = new ArrayList<>();
 
         Endereco endereco = new Endereco();
@@ -42,11 +42,11 @@ public class AlgoritmoGenetico {
         roteiro.setPontoPartida(pontoPartida);
 
         Turno manha = new Turno();
-        Time time = new Time(7, 15, 00);
+        Time time = new Time(7, 0, 00);
         manha.setEntrada(time);
-        time = new Time(11, 35, 00);
+        time = new Time(11, 32, 00);
         manha.setSaida(time);
-        
+
         endereco = new Endereco();
         endereco.setDescricao("Escola");
         endereco.setLatitude(28.11786);
@@ -55,24 +55,7 @@ public class AlgoritmoGenetico {
         escola.setTurno(manha);
         escola.setNome("Tancredo neves");
         escola.setEndereco(endereco);
-        
-        pontos.add(escola);
-        
-        manha = new Turno();
-        time = new Time(7, 10, 00);
-        manha.setEntrada(time);
-        time = new Time(11, 34, 00);
-        manha.setSaida(time);
-        
-        endereco = new Endereco();
-        endereco.setDescricao("Escola");
-        endereco.setLatitude(28.11786);
-        endereco.setLongitude(-96.88506);
-        escola = new Escola();
-        escola.setTurno(manha);
-        escola.setNome("Tancredo neves 2");
-        escola.setEndereco(endereco);
-        
+
         pontos.add(escola);
 
         endereco = new Endereco();
@@ -91,6 +74,23 @@ public class AlgoritmoGenetico {
 
         pontos.add(aluno);
 
+        manha = new Turno();
+        time = new Time(7, 10, 00);
+        manha.setEntrada(time);
+        time = new Time(11, 34, 00);
+        manha.setSaida(time);
+
+        endereco = new Endereco();
+        endereco.setDescricao("Escola");
+        endereco.setLatitude(28.11786);
+        endereco.setLongitude(-96.88506);
+        escola = new Escola();
+        escola.setTurno(manha);
+        escola.setNome("Tancredo neves 2");
+        escola.setEndereco(endereco);
+
+        pontos.add(escola);
+
         endereco = new Endereco();
         endereco.setDescricao("Aluno");
         endereco.setLatitude(29.46786);
@@ -99,9 +99,34 @@ public class AlgoritmoGenetico {
 
         pontos.add(aluno);
 
+        manha = new Turno();
+        time = new Time(7, 9, 00);
+        manha.setEntrada(time);
+        time = new Time(11, 31, 00);
+        manha.setSaida(time);
+
+        endereco = new Endereco();
+        endereco.setDescricao("Escola");
+        endereco.setLatitude(28.11786);
+        endereco.setLongitude(-96.88506);
+        escola = new Escola();
+        escola.setTurno(manha);
+        escola.setNome("Tancredo neves 3");
+        escola.setEndereco(endereco);
+
+        pontos.add(escola);
+
+        endereco = new Endereco();
+        endereco.setDescricao("Aluno");
+        endereco.setLatitude(23.46786);
+        endereco.setLongitude(-91.53506);
+        aluno = new Estudante("veiga", endereco, escola, 0);
+
+        pontos.add(aluno);
+
         roteiro.setItensRoteiros(pontos);
 
-        Algoritmo algoritmo = new Algoritmo(roteiro, 1000, 15);
+        Algoritmo algoritmo = new Algoritmo(roteiro, 800, 15);
         try {
             algoritmo.executar();
         } catch (InvalidConfigurationException ex) {

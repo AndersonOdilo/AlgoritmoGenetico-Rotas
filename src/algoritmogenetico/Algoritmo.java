@@ -5,6 +5,8 @@
  */
 package algoritmogenetico;
 
+import java.util.Collections;
+import java.util.Random;
 import models.Roteiro;
 import org.jgap.Chromosome;
 import org.jgap.Configuration;
@@ -13,6 +15,7 @@ import org.jgap.Gene;
 import org.jgap.Genotype;
 import org.jgap.IChromosome;
 import org.jgap.InvalidConfigurationException;
+import org.jgap.Population;
 import org.jgap.impl.DefaultConfiguration;
 import org.jgap.impl.IntegerGene;
 
@@ -51,7 +54,8 @@ public class Algoritmo {
         Gene[] genes = new Gene[roteiro.getItensRoteiros().size()];
 
         for (int i = 0; i < genes.length; i++) {
-            genes[i] = new IntegerGene(conf, i, i);
+            genes[i] = new IntegerGene(conf, 0, roteiro.getItensRoteiros().size() - 1);
+            genes[i].setAllele(i);
         }
 
         //cria um cromosomo com os genes definidos
@@ -66,19 +70,34 @@ public class Algoritmo {
         //inicia uma populacao randomicamente apartir do cromosomo criado
         Genotype populacao = Genotype.randomInitialGenotype(conf);
 
+        IChromosome melhor_solucao = new Chromosome(conf);
+        int repetido = 0;
+
         //evolui a populacao o numero maximo de vezes
         for (int i = 0; i < nMaxEvolucoes; i++) {
             populacao.evolve();
+            if (melhor_solucao.equals(populacao.getFittestChromosome())) {
+                repetido++;
+            } else {
+                repetido--;
+            }
+            if (repetido == 25) {
+                break;
+            }
+            melhor_solucao = populacao.getFittestChromosome();
         }
 
         //pega a melhor solucao da populacao
-        IChromosome melhor_solucao = populacao.getFittestChromosome();
+        melhor_solucao = populacao.getFittestChromosome();
 
         //imprime os genes da solucao
         for (Gene gene : melhor_solucao.getGenes()) {
             System.out.println(gene);
             System.out.println(roteiro.getItensRoteiros().get(((Integer) gene.getAllele())).getDescricao());
         }
+
+        Fitness f = new Fitness(roteiro);
+        System.out.println(f.calcularDistancia(melhor_solucao));
     }
 
 }
