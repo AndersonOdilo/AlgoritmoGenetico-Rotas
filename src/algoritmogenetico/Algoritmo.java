@@ -5,8 +5,9 @@
  */
 package algoritmogenetico;
 
-import java.util.Collections;
-import java.util.Random;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 import models.Roteiro;
 import org.jgap.Chromosome;
 import org.jgap.Configuration;
@@ -15,7 +16,7 @@ import org.jgap.Gene;
 import org.jgap.Genotype;
 import org.jgap.IChromosome;
 import org.jgap.InvalidConfigurationException;
-import org.jgap.Population;
+import org.jgap.impl.BestChromosomesSelector;
 import org.jgap.impl.DefaultConfiguration;
 import org.jgap.impl.IntegerGene;
 
@@ -35,20 +36,24 @@ public class Algoritmo {
         this.capacidadeMaxVeiculo = capacidadeMaxVeiculo;
     }
 
-    public void executar() throws InvalidConfigurationException {
+    public void executar() throws InvalidConfigurationException, IOException {
 
         //inicia configuração do algoritimo padrao
         Configuration conf = new DefaultConfiguration();
 
         //Seta operador genetico criado
-        OperadorGenetico operador = new OperadorGenetico(roteiro);
-        conf.addGeneticOperator(operador);
+        OperadorGenetico operadorGenetico = new OperadorGenetico(roteiro);
+        conf.addGeneticOperator(operadorGenetico);
 
         //cria objeto fitness
         FitnessFunction fitness = new Fitness(roteiro);
-
-        // seta a classe de fitness na configuracao
         conf.setFitnessFunction(fitness);
+
+        // criar um seletor que nao permite duplicações
+        conf.getNaturalSelectors(false).clear();
+        BestChromosomesSelector bcs = new BestChromosomesSelector(conf, 1.0d);
+        bcs.setDoubletteChromosomesAllowed(false);
+        conf.addNaturalSelector(bcs, false);
 
         // cria um array de genes tamanho quantia de enderecos
         Gene[] genes = new Gene[roteiro.getItensRoteiros().size()];
@@ -65,39 +70,37 @@ public class Algoritmo {
         conf.setSampleChromosome(chromosome);
 
         //seta o numero da populacao 
-        conf.setPopulationSize(60);
+        conf.setPopulationSize(80);
 
         //inicia uma populacao randomicamente apartir do cromosomo criado
         Genotype populacao = Genotype.randomInitialGenotype(conf);
 
-        IChromosome melhor_solucao = new Chromosome(conf);
-        int repetido = 0;
-
         //evolui a populacao o numero maximo de vezes
         for (int i = 0; i < nMaxEvolucoes; i++) {
             populacao.evolve();
-            if (melhor_solucao.equals(populacao.getFittestChromosome())) {
-                repetido++;
-            } else {
-                repetido--;
-            }
-            if (repetido == 25) {
-                break;
-            }
-            melhor_solucao = populacao.getFittestChromosome();
         }
 
         //pega a melhor solucao da populacao
-        melhor_solucao = populacao.getFittestChromosome();
+        IChromosome melhor_solucao = populacao.getFittestChromosome();
+
+        //Abre arquivo txt
+        PrintWriter gravarArq = new PrintWriter(new FileOutputStream("C:\\Users\\Anderson\\Desktop\\roteiro2.txt", true), true);
 
         //imprime os genes da solucao
         for (Gene gene : melhor_solucao.getGenes()) {
-            System.out.println(gene);
             System.out.println(roteiro.getItensRoteiros().get(((Integer) gene.getAllele())).getDescricao());
+            gravarArq.println(roteiro.getItensRoteiros().get(((Integer) gene.getAllele())).getDescricao());
         }
 
         Fitness f = new Fitness(roteiro);
-        System.out.println(f.calcularDistancia(melhor_solucao));
+        System.out.println("\nDistancia total a percoerer " + f.calcularDistancia(melhor_solucao) + " Km");
+
+        gravarArq.println();
+        gravarArq.println("Distancia total a percoerer " + f.calcularDistancia(melhor_solucao) + " Km");
+        gravarArq.println("--------------------------------------------------------------------------");
+        gravarArq.println();
+
+        gravarArq.close();
     }
 
 }

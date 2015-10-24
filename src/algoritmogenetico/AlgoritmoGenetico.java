@@ -5,6 +5,7 @@
  */
 package algoritmogenetico;
 
+import java.io.IOException;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,105 +29,207 @@ public class AlgoritmoGenetico {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Roteiro roteiro = new Roteiro();
-        roteiro.setTipo(1);
+        roteiro.setTipo(0);
 
         List<ItemRoteiro> pontos = new ArrayList<>();
 
+        // Ponto de partida
         Endereco endereco = new Endereco();
         endereco.setDescricao("Ponto de partida");
-        endereco.setLatitude(32.9697);
-        endereco.setLongitude(-96.80322);
+        endereco.setLatitude(-26.0721902741625);
+        endereco.setLongitude(-53.0387778306884);
         PontoPartida pontoPartida = new PontoPartida(endereco);
         roteiro.setPontoPartida(pontoPartida);
 
-        Turno manha = new Turno();
-        Time time = new Time(7, 0, 00);
-        manha.setEntrada(time);
-        time = new Time(11, 32, 00);
-        manha.setSaida(time);
+        
+        Turno turno = new Turno();
+        Time time = new Time(13, 30, 00);
+        turno.setEntrada(time);
+        time = new Time(17, 00, 00);
+        turno.setSaida(time);
 
         endereco = new Endereco();
-        endereco.setDescricao("Escola");
-        endereco.setLatitude(28.11786);
-        endereco.setLongitude(-96.88506);
+        endereco.setDescricao("Colégio Vida e Ensino");
+        endereco.setLatitude(-26.0822311);
+        endereco.setLongitude(-53.0596453);
         Escola escola = new Escola();
-        escola.setTurno(manha);
-        escola.setNome("Tancredo neves");
+        escola.setTurno(turno);
+        escola.setNome("Colégio Vida e Ensino");
         escola.setEndereco(endereco);
 
         pontos.add(escola);
-
+        
+        
         endereco = new Endereco();
-        endereco.setDescricao("Aluno");
-        endereco.setLatitude(25.20786);
-        endereco.setLongitude(-95.10506);
-        Estudante aluno = new Estudante("Anderson", endereco, escola, 0);
+        endereco.setDescricao("Laura Meneghini Ribeiro");
+        endereco.setLatitude(-26.0900245);
+        endereco.setLongitude(-53.046525);
+        Estudante aluno = new Estudante("Laura Meneghini Ribeiro", endereco, escola, 0);
+
+        pontos.add(aluno);
+        
+        
+        endereco = new Endereco();
+        endereco.setDescricao("Murilo Grieber Niclote");
+        endereco.setLatitude(-26.0779448);
+        endereco.setLongitude(-53.05199);
+        aluno = new Estudante("Murilo Grieber Niclote", endereco, escola, 0);
 
         pontos.add(aluno);
 
-        endereco = new Endereco();
-        endereco.setDescricao("Aluno");
-        endereco.setLatitude(29.67786);
-        endereco.setLongitude(-98.99506);
-        aluno = new Estudante("Odilo", endereco, escola, 0);
-
-        pontos.add(aluno);
-
-        manha = new Turno();
-        time = new Time(7, 10, 00);
-        manha.setEntrada(time);
-        time = new Time(11, 34, 00);
-        manha.setSaida(time);
+        
+        
+        turno = new Turno();
+        time = new Time(13, 10, 00);
+        turno.setEntrada(time);
+        time = new Time(17, 40, 00);
+        turno.setSaida(time);
 
         endereco = new Endereco();
-        endereco.setDescricao("Escola");
-        endereco.setLatitude(28.11786);
-        endereco.setLongitude(-96.88506);
+        endereco.setDescricao("Escola Maria Basso Dellani");
+        endereco.setLatitude(-26.0753378);
+        endereco.setLongitude(-53.0488986);
         escola = new Escola();
-        escola.setTurno(manha);
-        escola.setNome("Tancredo neves 2");
+        escola.setTurno(turno);
+        escola.setNome("Escola Maria Basso Dellani");
         escola.setEndereco(endereco);
 
         pontos.add(escola);
-
+        
+        
         endereco = new Endereco();
-        endereco.setDescricao("Aluno");
-        endereco.setLatitude(29.46786);
-        endereco.setLongitude(-98.53506);
-        aluno = new Estudante("Vasconcelos", endereco, escola, 0);
+        endereco.setDescricao("Ana Leticia Duda");
+        endereco.setLatitude(-26.0929109);
+        endereco.setLongitude(-53.0454143);
+        aluno = new Estudante("Ana Leticia Duda", endereco, escola, 0);
 
         pontos.add(aluno);
+        
+        
+        endereco = new Endereco();
+        endereco.setDescricao("Alana Becker");
+        endereco.setLatitude(-26.0660256);
+        endereco.setLongitude(-53.0362711);
+        aluno = new Estudante("Alana Becker", endereco, escola, 0);
 
-        manha = new Turno();
-        time = new Time(7, 9, 00);
-        manha.setEntrada(time);
-        time = new Time(11, 31, 00);
-        manha.setSaida(time);
+        pontos.add(aluno);
+        
+        
+        endereco = new Endereco();
+        endereco.setDescricao("Cezar Augusto Duda");
+        endereco.setLatitude(-26.0929109);
+        endereco.setLongitude(-53.0454143);
+        aluno = new Estudante("Cezar Augusto Duda", endereco, escola, 0);
+
+        pontos.add(aluno);
+        
+        
+        endereco = new Endereco();
+        endereco.setDescricao("Milena G. Lopes");
+        endereco.setLatitude(-26.0704443);
+        endereco.setLongitude(-53.0407322);
+        aluno = new Estudante("Milena G. Lopes", endereco, escola, 0);
+
+        pontos.add(aluno);
+        
+        
+        endereco = new Endereco();
+        endereco.setDescricao("Aizhis Linda Boaventura Luz");
+        endereco.setLatitude(-26.0967336);
+        endereco.setLongitude(-53.0534838);
+        aluno = new Estudante("Aizhis Linda Boaventura Luz", endereco, escola, 0);
+
+        pontos.add(aluno);
+        
+        
+        endereco = new Endereco();
+        endereco.setDescricao("Emanuelli V. Brugalli Gonçalves");
+        endereco.setLatitude(-26.0764669);
+        endereco.setLongitude(-53.0336043);
+        aluno = new Estudante("Emanuelli V. Brugalli Gonçalves", endereco, escola, 0);
+
+        pontos.add(aluno);
+        
+        
+        endereco = new Endereco();
+        endereco.setDescricao("Bianca Fernandes Senhor");
+        endereco.setLatitude(-26.0961676945385);
+        endereco.setLongitude(-53.0482038179016);
+        aluno = new Estudante("Bianca Fernandes Senhor", endereco, escola, 0);
+
+        pontos.add(aluno);
+        
+        
+        endereco = new Endereco();
+        endereco.setDescricao("Leticia Bortoli Noel");
+        endereco.setLatitude(-26.0759659);
+        endereco.setLongitude(-53.0244152);
+        aluno = new Estudante("Leticia Bortoli Noel", endereco, escola, 0);
+
+        pontos.add(aluno);
+        
+        
+        
+        turno = new Turno();
+        time = new Time(13, 15, 00);
+        turno.setEntrada(time);
+        time = new Time(17, 10, 00);
+        turno.setSaida(time);
 
         endereco = new Endereco();
-        endereco.setDescricao("Escola");
-        endereco.setLatitude(28.11786);
-        endereco.setLongitude(-96.88506);
+        endereco.setDescricao("Colégio Pedro Algeri");
+        endereco.setLatitude(-26.0728823);
+        endereco.setLongitude(-53.0393801);
         escola = new Escola();
-        escola.setTurno(manha);
-        escola.setNome("Tancredo neves 3");
+        escola.setTurno(turno);
+        escola.setNome("Colégio Pedro Algeri");
         escola.setEndereco(endereco);
 
         pontos.add(escola);
-
+        
+        
         endereco = new Endereco();
-        endereco.setDescricao("Aluno");
-        endereco.setLatitude(23.46786);
-        endereco.setLongitude(-91.53506);
-        aluno = new Estudante("veiga", endereco, escola, 0);
+        endereco.setDescricao("João Augusto Budinhac");
+        endereco.setLatitude(-26.0759596421615);
+        endereco.setLongitude(-53.0279252207184);
+        aluno = new Estudante("João Augusto Budinhac", endereco, escola, 0);
 
         pontos.add(aluno);
+        
+        
+        
+        turno = new Turno();
+        time = new Time(13, 25, 00);
+        turno.setEntrada(time);
+        time = new Time(17, 40, 00);
+        turno.setSaida(time);
 
+        endereco = new Endereco();
+        endereco.setDescricao("Escola Eduardo Virmond Suplicy");
+        endereco.setLatitude(-26.078588);
+        endereco.setLongitude(-53.0544819);
+        escola = new Escola();
+        escola.setTurno(turno);
+        escola.setNome("Escola Eduardo Virmond Suplicy");
+        escola.setEndereco(endereco);
+
+        pontos.add(escola);
+        
+        
+        endereco = new Endereco();
+        endereco.setDescricao("Mateus Antônio Meneghini Ribeiro");
+        endereco.setLatitude(-26.0900245);
+        endereco.setLongitude(-53.046525);
+        aluno = new Estudante("Mateus Antônio Meneghini Ribeiro", endereco, escola, 0);
+
+        pontos.add(aluno);
+        
+        
         roteiro.setItensRoteiros(pontos);
 
-        Algoritmo algoritmo = new Algoritmo(roteiro, 800, 15);
+        Algoritmo algoritmo = new Algoritmo(roteiro, 190, 15);
         try {
             algoritmo.executar();
         } catch (InvalidConfigurationException ex) {
